@@ -1,0 +1,10 @@
+com\mycompany\projetojava\ProjetoJava.class
+entities\Eventos.class
+entities\Medicos.class
+entities\ParticipanteEvento.class
+entities\Pedidos.class
+entities\Restaurante.class
+entities\ClinicaMedica.class
+entities\Mesas.class
+entities\Pacientes.class
+entities\Event.class

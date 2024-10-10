@@ -30,7 +30,7 @@ public class ProjetoJava {
         Eventos evento = new Eventos();
         Events event = new Events();
         ParticipanteEvento participante = new ParticipanteEvento();
-        
+
         Restaurante restauran = new Restaurante();
         Pedidos pedido = new Pedidos();
         Mesas mesa = new Mesas();
@@ -56,6 +56,9 @@ public class ProjetoJava {
 
                 case 2:
                     eventosMenu(evento, event, participante);
+                    break;
+                case 3:
+                    restauranteMenu(restauran, pedido, mesa);
             }
         }
 
@@ -261,7 +264,7 @@ public class ProjetoJava {
                     if (encontrarInscricao != null) {
                         System.out.println("Participante encontrado: ");
                         System.out.println(encontrarInscricao);
-                        
+
                         Events encontrarEventoCancelar = evento.buscarEvento(cancelarPresenca);
                         if (encontrarEventoCancelar != null) {
                             evento.removeParticipantes(encontrarInscricao);
@@ -285,7 +288,7 @@ public class ProjetoJava {
                     if (encontrarInscricao != null) {
                         System.out.println("Participante encontrado: ");
                         System.out.println(encontrarInscricao);
-                    }else{
+                    } else {
                         System.out.println("Código inexistente");
                     }
                     break;
@@ -328,35 +331,98 @@ public class ProjetoJava {
                                 case 0:
                                     change = false;
                                     break;
+
                             }
                         }
                     }
+                case 0:
+                    clinicaRunning = false;
+                    break;
             }
+
         }
     }
-    
-    public static void restauranteMenu(Restaurante restauran, Pedidos pedido, Mesas mesa){
+
+    public static void restauranteMenu(Restaurante restauran, Pedidos pedido, Mesas mesa) {
         Scanner s = new Scanner(System.in);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        
+
         boolean restRunning = true;
-        
-        while(restRunning){
+
+        while (restRunning) {
             System.out.println("\n*** MENU DO RESTAURANTE ***");
-            System.out.println("1. Buscar mesas disponiveis");
+            System.out.println("1. Reservar mesa");
             System.out.println("2. Fazer pedido");
-            System.out.println("3. Fechar conta");
-            System.out.println("4. Atualizar pedido");
+            System.out.println("3. Adicionar pedido");
+            System.out.println("4. Fechar conta");
+            System.out.println("5. Buscar mesa");
+            System.out.println("6. Buscar pedido");
             System.out.println("0. Voltar ao Menu Principal");
-            System.out.print("Escolha uma opção: ");  
-            
+            System.out.print("Escolha uma opção: ");
+
             int restOp = s.nextInt();
-            
+
             s.nextLine();
-            
-            switch(restOp){
-                
-            }
-        }
+
+            switch (restOp) {
+                case 1:
+                    System.out.println("Digite o numero da mesa desejada: ");
+                    int numeroMesa = s.nextInt();
+
+                    s.nextLine();
+
+                    System.out.println("Digite o nome do cliente da mesa");
+                    String clienteNome = s.nextLine();
+
+                    boolean status = false;
+
+                    mesa = new Mesas(numeroMesa, clienteNome, status);
+                    restauran.addMesas(mesa);
+
+                    System.out.println("Mesa reservada com sucesso");
+                    break;
+                case 2:
+                    System.out.println("Digite o numero da mesa que fará o pedido.");
+                    int numeroMesaPedido = s.nextInt();
+                    s.nextLine();
+                    Mesas buscarNumeroMesa = restauran.buscarMesa(numeroMesaPedido);
+                    if (buscarNumeroMesa != null) {
+                        System.out.println("Digite o pedido: ");
+                        String order = s.nextLine();
+
+                        System.out.println("Valor do pedido");
+                        double preco = s.nextDouble();
+
+                        System.out.println("Quantidade do pedido");
+                        int quantidade = s.nextInt();
+
+                        pedido = new Pedidos(order, quantidade, preco);
+                        mesa.addPedidos(pedido); 
+                        break;
+                    }else{
+                        System.out.println("Mesa vazia");
+                        break;
+                    }
+                case 3:
+                System.out.println("Digite o numero da mesa que fará um novo pedido.");
+                    int numeroMesaNovoPedido = s.nextInt();   
+                    s.nextLine();
+                    buscarNumeroMesa = restauran.buscarMesa(numeroMesaNovoPedido);
+                    if(buscarNumeroMesa != null){
+                        System.out.println("Digite o pedido: ");
+                        String order = s.nextLine();
+
+                        System.out.println("Valor do pedido");
+                        double preco = s.nextDouble();
+
+                        System.out.println("Quantidade do pedido");
+                        int quantidade = s.nextInt();
+
+                        pedido = new Pedidos(order, quantidade, preco);
+                        mesa.addPedidos(pedido); 
+                        break;                       
+                    }
+        }       
     }
+}
 }

@@ -11,7 +11,6 @@ import java.util.List;
 public class Restaurante {
     
     private List<Mesas> mesa = new ArrayList<Mesas>();
-    private List<Pedidos> pedido = new ArrayList<Pedidos>();
 
     public Restaurante() {
     }
@@ -23,10 +22,12 @@ public class Restaurante {
         mesa.add(mesas);
     }
     
-    public void addPedidos(Pedidos pedidos){
-        pedido.add(pedidos);
-    }
-    public void removePedidos(Pedidos pedidos){
-        pedido.remove(pedidos);
+    public Mesas buscarMesa (int codigo){
+        for(Mesas m : mesa){          
+            int codigoMesa = m.getNumber();
+            if(codigoMesa == codigo){         
+                return m;
+            }
+        }return null;
     }
 }

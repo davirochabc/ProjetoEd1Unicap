@@ -46,5 +46,13 @@ public class ParticipanteEvento {
         this.registeredEvent = registeredEvent;
     }
     
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Nome do Participante: ").append(name).append("\n");
+        sb.append("Código de Inscrição: ").append(registration).append("\n");
+        sb.append("Evento Registrado: ").append(registeredEvent).append("\n");
+        return sb.toString();
+        
+    }
     
 }

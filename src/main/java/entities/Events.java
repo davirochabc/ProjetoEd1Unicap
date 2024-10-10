@@ -5,12 +5,14 @@
 package entities;
 
 import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  *
  * @author j040v
  */
 public class Events {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private String name;
     private Date date;
     private String local;
@@ -56,6 +58,18 @@ public class Events {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+    
+    @Override
+    public String toString(){
+    StringBuilder sb = new StringBuilder();
+    sb.append("Nome: ").append(name).append("\n");
+    sb.append("Data: ").append(sdf.format(date)).append("\n");
+    sb.append("Local: ").append(local).append("\n");
+    sb.append("Capacidade: ").append(capacity).append("\n");
+    return sb.toString();
+    
+    
     }
         
 }

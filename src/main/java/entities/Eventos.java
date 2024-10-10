@@ -54,4 +54,25 @@ public class Eventos {
         }
         return null;
     }
+    public ParticipanteEvento buscarInscrição(int inscricao){        
+        for(ParticipanteEvento p : participantes){
+            int codigo = p.getRegistration();
+            if(codigo == inscricao){
+                return p;
+            }
+        }
+        return null;
+    }
+    public void imprimirEventos() {
+    if (event.isEmpty()) {
+        System.out.println("Nenhum evento registrado.");
+    } else {
+        for (Events e : event) {
+            System.out.println("----------------------");
+            System.out.println(e);  // Chama o toString() de Events
+            System.out.println("----------------------");
+        }
+    }
+}
+    
 }

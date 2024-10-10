@@ -188,7 +188,7 @@ public class ProjetoJava {
             System.out.println("1. Inserir dados do evento");
             System.out.println("2. Adicionar Participante do evento");
             System.out.println("3. Cancelar inscrição do evento");
-            System.out.println("4. Buscar por evento");
+            System.out.println("4. Catálogo de Evento");
             System.out.println("5. Buscar por participante");
             System.out.println("6. Alterar dados do evento");
             System.out.println("0. Voltar ao Menu Principal");
@@ -205,10 +205,13 @@ public class ProjetoJava {
                     System.out.println("Formato dd/MM/yyyy");
                     Date dataEvento = sdf.parse(s.next());
                     
+                    s.nextLine();
+                    
                     System.out.println("Digite local do evento: ");
                     String localEvento = s.nextLine();
                     
-                    s.next();
+                    System.out.println(localEvento);
+                                       
                     
                     System.out.println("Digite a capacidade do evento: ");
                     int capacidadeEvento = s.nextInt();
@@ -216,6 +219,7 @@ public class ProjetoJava {
                     event = new Events(nomeEvento, dataEvento, localEvento, capacidadeEvento);
                     evento.addEvent(event);
                     break;
+                    
                 case 2:
                     System.out.println("Digite o nome do participante: ");
                     String nomeParticipante = s.nextLine();
@@ -233,13 +237,92 @@ public class ProjetoJava {
                         if(event.getCapacity() == 0){
                             System.out.println("Evento Lotado.");
                         }else{
+                            participante = new ParticipanteEvento(nomeParticipante, inscricaoEvento, eventoNome);
+                            evento.addParticipantes(participante);
                             System.out.println("Inscrição Realizada");
-                            event.setCapacity(event.getCapacity()-1);
+                            encontrarEvento.setCapacity(encontrarEvento.getCapacity()-1);
                         }
                     }else{
                         System.out.println("Evento não encontrado");
                     }
                     break;
+                    
+                case 3:
+                    System.out.println("Digite o codigo de inscrição para cancelamento da presença no evento: ");
+                    int codigoInscrição = s.nextInt();
+                    
+                    System.out.println("Digite o nome do evento: ");
+                    String cancelarPresenca = s.nextLine();
+                    
+                    Events encontrarEventoCancelar = evento.buscarEvento(cancelarPresenca);
+                    
+                    ParticipanteEvento encontrarInscricao = evento.buscarInscrição(codigoInscrição);
+                    if(encontrarInscricao != null){
+                        evento.removeParticipantes(encontrarInscricao);
+                        encontrarEventoCancelar.setCapacity(encontrarEventoCancelar.getCapacity()+1);
+                        System.out.println("Inscrição removida");
+                        
+                    }else{
+                        System.out.println("Código inexistente");
+                    }
+                    break;
+                    
+                case 4:
+                    System.out.println("Lista de todos os eventos listados: ");
+                    evento.imprimirEventos();
+                    break;
+                    
+                case 5:
+                    System.out.println("Digite o codigo de inscrição do participante: ");
+                    int buscaInscricao = s.nextInt();
+                    encontrarInscricao = evento.buscarInscrição(buscaInscricao);
+                    if(encontrarInscricao != null){
+                        System.out.println("Participante encontrado: ");
+                        System.out.println(encontrarInscricao);
+                    }
+                    break;
+                    
+                case 6:
+                    System.out.println("Digite o nome do evento que deseja alterar");
+                    String eventoAlterar = s.nextLine();
+                    encontrarEvento = evento.buscarEvento(eventoAlterar);
+                    if(encontrarEvento != null){
+                        
+                        boolean change = true;
+                        while(change){
+                        System.out.println("Deseja alterar qual dado: ");
+                        System.out.println("\n*** OPÇÕES ***");
+                        System.out.println("1. Alterar nome");
+                        System.out.println("2. Alterar data");
+                        System.out.println("3. Alterar Local");
+                        System.out.println("0. Para retornar ao menu de eventos");
+                        
+                        int opt = s.nextInt();
+                        s.nextLine();
+                        switch(opt){
+                            case 1:
+                                System.out.println("Digite o novo nome do evento");
+                                String novoNome = s.nextLine();
+                                encontrarEvento.setName(novoNome);
+                                break;
+                                
+                            case 2:
+                                System.out.println("Digite a nova data do evento: ");
+                                Date newDate = sdf.parse(s.next());
+                                encontrarEvento.setDate(newDate);
+                                break;
+                                
+                            case 3:
+                                System.out.println("Digite o novo local do evento: ");
+                                String novoLocal = s.nextLine();
+                                encontrarEvento.setLocal(novoLocal);
+                                break;
+                            case 0:
+                                change = false;
+                                break;
+                        }
+                        }
+                    }
             }
         }
     }

@@ -4,6 +4,8 @@
  */
 package entities;
 
+import java.text.SimpleDateFormat;
+
 /**
  *
  * @author j040v
@@ -44,6 +46,23 @@ public class Medicos {
 
     public void setDisponibilidae(boolean disponibilidae) {
         this.disponibilidae = disponibilidae;
+    }
+    @Override
+    public String toString(){      
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("Nome do medico: ");
+        sb.append(nome + "\n");
+        sb.append("Especialidade do Medico: ");
+        sb.append(especialidade + "\n");
+        sb.append("Disponibilidade do Médico: ");
+        if(disponibilidae == true){
+            sb.append("Médico Disponivel");
+        }else{
+            sb.append("Médico indisponivel");
+        }
+        return sb.toString();
+        
     }
     
     

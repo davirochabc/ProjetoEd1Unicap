@@ -3,6 +3,7 @@
 package com.mycompany.projetojava;
 
 import entities.ClinicaMedica;
+import entities.Consultas;
 import entities.Medicos;
 import entities.Pacientes;
 import java.text.ParseException;
@@ -18,6 +19,8 @@ public class ProjetoJava {
 
     public static void main(String[] args) throws ParseException {
     ClinicaMedica clinica = new ClinicaMedica();
+    Medicos medico = new Medicos();
+    Pacientes paciente = new Pacientes();
     Scanner s = new Scanner (System.in);
     
     boolean running = true;
@@ -34,12 +37,16 @@ public class ProjetoJava {
         int op = s.nextInt();
         switch(op){
             case 1: 
-                clinicaMenu(clinica);
+                clinicaMenu(clinica, medico, paciente);
+            break;
+            
+            case 2:
+                
         }
     }
     
     }
-    public static void clinicaMenu(ClinicaMedica clinica) throws ParseException {
+    public static void clinicaMenu(ClinicaMedica clinica, Medicos medico, Pacientes paciente) throws ParseException {
         Scanner s = new Scanner (System.in);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         boolean clinicRunning = true;
@@ -49,7 +56,9 @@ public class ProjetoJava {
             System.out.println("1. Adicionar Paciente");
             System.out.println("2. Adicionar Médico");
             System.out.println("3. Buscar Paciente");
-            System.out.println("4. Exibir Médicos");
+            System.out.println("4. Buscar Médicos");
+            System.out.println("5. Agendar consulta");
+            System.out.println("6. Editar histórico do paciente");
             System.out.println("0. Voltar ao Menu Principal");
             System.out.print("Escolha uma opção: ");  
             
@@ -71,14 +80,12 @@ public class ProjetoJava {
                     System.out.println("Formato dd/MM/yyyy");
                     Date ultimaConsulta = sdf.parse(s.next());
                     
-                    Pacientes paciente = new Pacientes(nomeP, historico, idade, ultimaConsulta);                   
-                    clinica.addPaciente(paciente);                                      
-                    clinicRunning = false;
+                    paciente = new Pacientes(nomeP, historico, idade, ultimaConsulta);                   
+                    clinica.addPaciente(paciente);                                                          
                     break;
                 case 2:
                     System.out.println("Digite o nome do médico: ");
-                    String nomeM = s.nextLine();
-                    s.nextLine();
+                    String nomeM = s.nextLine();                 
                     System.out.println("Especialidade do médico: ");
                     String especialidade = s.nextLine();
                     
@@ -86,13 +93,13 @@ public class ProjetoJava {
                     System.out.println("(true) - disponivel || (false) - indisponivel");
                     boolean disponibilidade = s.nextBoolean();
                     
-                    Medicos medico = new Medicos(nomeM, especialidade, disponibilidade);
-                    clinicRunning = false;
+                    medico = new Medicos(nomeM, especialidade, disponibilidade);
+                    clinica.addMedico(medico);
                     break;
                 case 3:
                     System.out.println("Digite o nome do paciente que deseja encontrar: ");
-                    String nomeBusca = s.nextLine();
-                    Pacientes pacienteEncontrado = clinica.buscaPaciente(nomeBusca);                  
+                    String nomePaciente = s.nextLine();
+                    Pacientes pacienteEncontrado = clinica.buscaPaciente(nomePaciente);                  
                     
                     if(pacienteEncontrado != null){
                         System.out.println("Paciente Encontrado: ");
@@ -100,11 +107,65 @@ public class ProjetoJava {
                     }else{
                         System.out.println("Paciente não encontrado");
                     }
+                    break;
+                case 4:
+                    System.out.println("Digite o nome do medico que deseja encontrar: ");
+                    String nomeMedico = s.nextLine();
+                    Medicos medicoEncontrado = clinica.buscaMedico(nomeMedico);                  
+                    
+                    if(medicoEncontrado != null){
+                        System.out.println("Medico Encontrado: ");
+                        System.out.println(medicoEncontrado);
+                    }else{
+                        System.out.println("Medico não encontrado");
+                    }                   
+                    break;
+                case 5:
+                    System.out.println("Digite seu nome: ");
+                    String nomePacienteConsulta = s.nextLine();
+                    
+                    System.out.println("Digite o historico do paciente: ");
+                    String historicoConsulta = s.nextLine();
+                    
+                    System.out.println("Digite sua idade: ");
+                    int idadeConsulta = s.nextInt();                                      
+                    
+                    System.out.println("Informe a data da consulta que deseja: ");
+                    System.out.println("Formato dd/MM/yyyy");   
+                    Date dateConsulta = sdf.parse(s.next());
+                    s.nextLine();
+                    System.out.println("Digite o nome do médico");
+                    String nomeMedicoConsulta = s.nextLine();
+                    
+                    Medicos procuraMedico = clinica.buscaMedico(nomeMedicoConsulta);
+                    if(procuraMedico != null){
+                        if(procuraMedico.isDisponibilidade() == true){
+                            System.out.println("Marcada");
+                            medico.setDisponibilidae(false);
+                        }else{
+                            System.out.println("Medico indisponivel");
+                        }
+                    }else{
+                        System.out.println("Medico inexistente");
+                    }
+                    break;
+                case 6: 
+                    System.out.println("Digite o nome do paciente que deseja encontrar: ");
+                    String alterarPaciente = s.nextLine();
+                    Pacientes pacienteAlterado = clinica.buscaPaciente(alterarPaciente);
+                    if(pacienteAlterado != null){
+                        System.out.println("Atualize o historico do paciente: " + pacienteAlterado.getNome());
+                        String novoHistorico = s.nextLine();
+                        paciente.setHistorico(novoHistorico);
+                    }
+                    
+                    
+                case 0:
                     clinicRunning = false;
                     break;
             }
         
         }
     }
-   
+    
 }

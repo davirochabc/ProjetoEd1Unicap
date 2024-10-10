@@ -4,8 +4,11 @@ package com.mycompany.projetojava;
 
 import entities.ClinicaMedica;
 import entities.Consultas;
+import entities.Eventos;
+import entities.Events;
 import entities.Medicos;
 import entities.Pacientes;
+import entities.ParticipanteEvento;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,9 +21,15 @@ import java.util.Scanner;
 public class ProjetoJava {
 
     public static void main(String[] args) throws ParseException {
+    
     ClinicaMedica clinica = new ClinicaMedica();
     Medicos medico = new Medicos();
     Pacientes paciente = new Pacientes();
+    
+    Eventos evento = new Eventos();
+    Events event = new Events();
+    ParticipanteEvento participante = new ParticipanteEvento();
+    
     Scanner s = new Scanner (System.in);
     
     boolean running = true;
@@ -41,7 +50,7 @@ public class ProjetoJava {
             break;
             
             case 2:
-                
+                eventosMenu(evento, event, participante);
         }
     }
     
@@ -168,4 +177,70 @@ public class ProjetoJava {
         }
     }
     
+    public static void eventosMenu(Eventos evento, Events event, ParticipanteEvento participante) throws ParseException{
+        Scanner s = new Scanner (System.in);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        
+        boolean clinicaRunning = true;
+        
+        while(clinicaRunning){
+            System.out.println("\n*** MENU DO EVENTO ***");
+            System.out.println("1. Inserir dados do evento");
+            System.out.println("2. Adicionar Participante do evento");
+            System.out.println("3. Cancelar inscrição do evento");
+            System.out.println("4. Buscar por evento");
+            System.out.println("5. Buscar por participante");
+            System.out.println("6. Alterar dados do evento");
+            System.out.println("0. Voltar ao Menu Principal");
+            System.out.print("Escolha uma opção: "); 
+            
+            int op = s.nextInt();
+            s.nextLine();
+            switch(op){
+                case 1:
+                    System.out.println("Digite o nome do Evento: ");
+                    String nomeEvento = s.nextLine();
+                    
+                    System.out.println("Digite a data que ocorrerá o evento: ");
+                    System.out.println("Formato dd/MM/yyyy");
+                    Date dataEvento = sdf.parse(s.next());
+                    
+                    System.out.println("Digite local do evento: ");
+                    String localEvento = s.nextLine();
+                    
+                    s.next();
+                    
+                    System.out.println("Digite a capacidade do evento: ");
+                    int capacidadeEvento = s.nextInt();
+                    
+                    event = new Events(nomeEvento, dataEvento, localEvento, capacidadeEvento);
+                    evento.addEvent(event);
+                    break;
+                case 2:
+                    System.out.println("Digite o nome do participante: ");
+                    String nomeParticipante = s.nextLine();
+                    
+                    System.out.println("Digite o numero da inscrição: ");
+                    int inscricaoEvento = s.nextInt();
+                    
+                    s.nextLine();
+                    
+                    System.out.println("Digite o nome do evento que irá participar: ");
+                    String eventoNome = s.nextLine();
+                    
+                    Events encontrarEvento = evento.buscarEvento(eventoNome);
+                    if(encontrarEvento != null){
+                        if(event.getCapacity() == 0){
+                            System.out.println("Evento Lotado.");
+                        }else{
+                            System.out.println("Inscrição Realizada");
+                            event.setCapacity(event.getCapacity()-1);
+                        }
+                    }else{
+                        System.out.println("Evento não encontrado");
+                    }
+                    break;
+            }
+        }
+    }
 }

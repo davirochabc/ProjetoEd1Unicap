@@ -10,16 +10,16 @@ import java.util.Date;
  *
  * @author j040v
  */
-public class Event {
+public class Events {
     private String name;
     private Date date;
     private String local;
     private int capacity;
 
-    public Event() {
+    public Events() {
     }
 
-    public Event(String name, Date date, String local, int capacity) {
+    public Events(String name, Date date, String local, int capacity) {
         this.name = name;
         this.date = date;
         this.local = local;

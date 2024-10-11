@@ -59,6 +59,10 @@ public class ProjetoJava {
                     break;
                 case 3:
                     restauranteMenu(restauran, pedido, mesa);
+                    break;
+                case 0:
+                    running = false;
+                    break;
             }
         }
 
@@ -397,18 +401,18 @@ public class ProjetoJava {
                         int quantidade = s.nextInt();
 
                         pedido = new Pedidos(order, quantidade, preco);
-                        mesa.addPedidos(pedido); 
+                        mesa.addPedidos(pedido);
                         break;
-                    }else{
+                    } else {
                         System.out.println("Mesa vazia");
                         break;
                     }
                 case 3:
-                System.out.println("Digite o numero da mesa que fará um novo pedido.");
-                    int numeroMesaNovoPedido = s.nextInt();   
+                    System.out.println("Digite o numero da mesa que fará um novo pedido.");
+                    int numeroMesaNovoPedido = s.nextInt();
                     s.nextLine();
                     buscarNumeroMesa = restauran.buscarMesa(numeroMesaNovoPedido);
-                    if(buscarNumeroMesa != null){
+                    if (buscarNumeroMesa != null) {
                         System.out.println("Digite o pedido: ");
                         String order = s.nextLine();
 
@@ -419,10 +423,48 @@ public class ProjetoJava {
                         int quantidade = s.nextInt();
 
                         pedido = new Pedidos(order, quantidade, preco);
-                        mesa.addPedidos(pedido); 
-                        break;                       
+                        mesa.addPedidos(pedido);
+                        break;
+                    } else {
+                        System.out.println("Mesa não encontrada");
                     }
-        }       
+                case 4:
+                    System.out.println("Digite o numero da mesa: ");
+                    int numeroMesaConta = s.nextInt();
+                    s.nextLine();
+                    buscarNumeroMesa = restauran.buscarMesa(numeroMesaConta);
+                    if (buscarNumeroMesa != null) {
+                        System.out.println(mesa);
+                        System.out.println("Conta paga. Mesa desocupada");
+                        buscarNumeroMesa.setClient(null);
+                        buscarNumeroMesa.setStatus(true);
+                        buscarNumeroMesa.limparPedido();
+                        break;
+                    } else {
+                        System.out.println("Código da mesa inválido");
+                    }
+                case 5:
+                    System.out.println("Digite o numero da mesa: ");
+                    int numeroMesaBusca = s.nextInt();
+                    s.nextLine();
+                    buscarNumeroMesa = restauran.buscarMesa(numeroMesaBusca);
+                    if (buscarNumeroMesa != null) {
+                        System.out.println(mesa);
+                    }
+                    break;
+                case 6:
+                    System.out.println("Digite o nome do seu pedido: ");
+                    String nomePedidoBusca = s.nextLine();
+                    
+                    Pedidos pedidoEncontrado = mesa.buscaPedidos(nomePedidoBusca);
+                    if(pedidoEncontrado != null){
+                        System.out.println(pedidoEncontrado);
+                    }
+                    break;
+                case 0:
+                    restRunning = false;
+                    break;
+            }
+        }
     }
-}
 }

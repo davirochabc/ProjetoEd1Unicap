@@ -30,4 +30,15 @@ public class Restaurante {
             }
         }return null;
     }
+    public void imprimirPedidos() {
+    if (mesa.isEmpty()) {
+        System.out.println("Nenhum evento registrado.");
+    } else {
+        for (Mesas m : mesa) {
+            System.out.println("----------------------");
+            System.out.println(m);  // Chama o toString() de Events
+            System.out.println("----------------------");
+        }
+    }
+}
 }

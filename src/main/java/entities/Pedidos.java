@@ -9,8 +9,9 @@ package entities;
  * @author j040v
  */
 public class Pedidos {
+
     private String orderName;
-    private Integer quantity;  
+    private Integer quantity;
     private Double price;
 
     public Pedidos() {
@@ -42,16 +43,15 @@ public class Pedidos {
         double total = quantity * price;
         return total;
     }
-    
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Pedido: "+ orderName +"\n");
-        sb.append("Quantidade: " + quantity+"\n");
-        sb.append("Preço por unidade: " + price+"\n");
-        sb.append("Total a pagar: R$" + getTotal()+"\n");
-        
+        sb.append("Pedido: " + orderName + "\n");
+        sb.append("Quantidade: " + quantity + "\n");
+        sb.append("Preço por unidade: " + price + "\n");
+        sb.append("Total a pagar: R$" + getTotal() + "\n");
+
         return sb.toString();
     }
 }

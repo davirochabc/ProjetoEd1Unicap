@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
  * @author j040v
  */
 public class Medicos {
+
     private String nome;
     private String especialidade;
     private boolean disponibilidae;
@@ -47,23 +48,23 @@ public class Medicos {
     public void setDisponibilidae(boolean disponibilidae) {
         this.disponibilidae = disponibilidae;
     }
+
     @Override
-    public String toString(){      
+    public String toString() {
         StringBuilder sb = new StringBuilder();
-        
+
         sb.append("Nome do medico: ");
         sb.append(nome + "\n");
         sb.append("Especialidade do Medico: ");
         sb.append(especialidade + "\n");
         sb.append("Disponibilidade do Médico: ");
-        if(disponibilidae == true){
+        if (disponibilidae == true) {
             sb.append("Médico Disponivel");
-        }else{
+        } else {
             sb.append("Médico indisponivel");
         }
         return sb.toString();
-        
+
     }
-    
-    
+
 }

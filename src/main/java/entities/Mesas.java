@@ -59,25 +59,28 @@ public class Mesas {
     public void removePedidos(Pedidos pedidos) {
         pedido.remove(pedidos);
     }
-    public void limparPedido(){
+
+    public void limparPedido() {
         this.pedido.clear();
     }
-    public Pedidos buscaPedidos(String nome){
-        for(Pedidos p : pedido){               
-            String nomePedido = p.getOrderName().trim();         
-            if(nomePedido.length() == nome.length()){
+
+    public Pedidos buscaPedidos(String nome) {
+        for (Pedidos p : pedido) {
+            String nomePedido = p.getOrderName().trim();
+            if (nomePedido.length() == nome.length()) {
                 boolean igual = true;
-                for(int i=0; i < nomePedido.length();i++){
-                    if(Character.toLowerCase(nomePedido.charAt(i)) != Character.toLowerCase(nome.charAt(i))){
+                for (int i = 0; i < nomePedido.length(); i++) {
+                    if (Character.toLowerCase(nomePedido.charAt(i)) != Character.toLowerCase(nome.charAt(i))) {
                         igual = false;
                         break;
                     }
                 }
-                if(igual){
+                if (igual) {
                     return p;
                 }
             }
-        }return null;   
+        }
+        return null;
     }
 
     @Override
@@ -92,12 +95,12 @@ public class Mesas {
             System.out.println("------------------------");
         } else {
             for (Pedidos p : pedido) {
-                System.out.println("--------PEDIDOS---------"); 
+                System.out.println("--------PEDIDOS---------");
                 System.out.println(p);
                 System.out.println("------------------------");
-                soma +=p.getTotal();
+                soma += p.getTotal();
             }
-            sb.append("Total a pagar: R$"+soma);
+            sb.append("Total a pagar: R$" + soma);
         }
 
         return sb.toString();

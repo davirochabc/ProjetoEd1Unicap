@@ -236,10 +236,9 @@ public class ProjetoJava {
 
                     System.out.println("Digite o numero da inscrição: ");
                     int inscricaoEvento = s.nextInt();
-                    
-                    
+
                     ParticipanteEvento encontrarInscricaop = evento.buscarInscrição(inscricaoEvento);
-                    if (encontrarInscricaop != null){
+                    if (encontrarInscricaop != null) {
                         System.out.println("Numero de inscrição já utilizado, Digite um válido: ");
                         inscricaoEvento = s.nextInt();
                     }
@@ -460,9 +459,9 @@ public class ProjetoJava {
                 case 6:
                     System.out.println("Digite o nome do seu pedido: ");
                     String nomePedidoBusca = s.nextLine();
-                    
+
                     Pedidos pedidoEncontrado = mesa.buscaPedidos(nomePedidoBusca);
-                    if(pedidoEncontrado != null){
+                    if (pedidoEncontrado != null) {
                         System.out.println(pedidoEncontrado);
                     }
                     break;

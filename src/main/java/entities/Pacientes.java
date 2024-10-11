@@ -11,12 +11,13 @@ import java.util.Date;
  *
  * @author j040v
  */
-public class Pacientes{
+public class Pacientes {
+
     private String name;
     private String history;
     private Integer age;
     private Date moment;
-    
+
     public Pacientes() {
     }
 
@@ -25,7 +26,7 @@ public class Pacientes{
         this.history = historico;
         this.age = age;
         this.moment = moment;
-        
+
     }
 
     public String getNome() {
@@ -51,11 +52,12 @@ public class Pacientes{
     public void setMoment(Date moment) {
         this.moment = moment;
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         StringBuilder sb = new StringBuilder();
-        
+
         sb.append("Nome do paciente: ");
         sb.append(name + "\n");
         sb.append("Idade do paciente: ");
@@ -64,11 +66,9 @@ public class Pacientes{
         sb.append(history + "\n");
         sb.append("Ultima consulta: ");
         sb.append(sdf.format(moment) + "\n");
-        
+
         return sb.toString();
-        
+
     }
 
-    
-    
 }

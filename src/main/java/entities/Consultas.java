@@ -11,6 +11,7 @@ import java.util.Date;
  * @author j040v
  */
 public class Consultas {
+
     private String nome;
     private String historico;
     private Integer idade;
@@ -67,8 +68,5 @@ public class Consultas {
     public void setNomeMedico(String nomeMedico) {
         this.nomeMedico = nomeMedico;
     }
-    
 
-
-    
 }

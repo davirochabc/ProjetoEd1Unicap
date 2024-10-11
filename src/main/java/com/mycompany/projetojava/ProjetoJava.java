@@ -236,9 +236,14 @@ public class ProjetoJava {
 
                     System.out.println("Digite o numero da inscrição: ");
                     int inscricaoEvento = s.nextInt();
-
+                    
+                    
+                    ParticipanteEvento encontrarInscricaop = evento.buscarInscrição(inscricaoEvento);
+                    if (encontrarInscricaop != null){
+                        System.out.println("Numero de inscrição já utilizado, Digite um válido: ");
+                        inscricaoEvento = s.nextInt();
+                    }
                     s.nextLine();
-
                     System.out.println("Digite o nome do evento que irá participar: ");
                     String eventoNome = s.nextLine();
 

@@ -14,7 +14,8 @@ public class Medicos {
 
     private String nome;
     private String especialidade;
-    private boolean disponibilidae;
+    private Boolean disponibilidae;
+    private Integer consultasMarcadas;
 
     public Medicos() {
     }
@@ -23,10 +24,18 @@ public class Medicos {
         this.nome = nome;
         this.especialidade = especialidade;
         this.disponibilidae = disponibilidae;
+        this.consultasMarcadas = 0;
     }
 
     public String getNome() {
         return nome;
+    }
+    
+    public void incrementarConsultas(){
+        consultasMarcadas++;
+    }
+    public int getConsultasMarcadas(){
+        return consultasMarcadas;
     }
 
     public void setNome(String nome) {
@@ -52,16 +61,15 @@ public class Medicos {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-
-        sb.append("Nome do medico: ");
-        sb.append(nome + "\n");
-        sb.append("Especialidade do Medico: ");
-        sb.append(especialidade + "\n");
-        sb.append("Disponibilidade do Médico: ");
+        sb.append("Nome do medico: " + nome+"\n");       
+        sb.append("Especialidade: " + especialidade+"\n");            
         if (disponibilidae == true) {
-            sb.append("Médico Disponivel");
+            sb.append("Médico Disponivel\n");
+            sb.append("Consultas marcadas: " + consultasMarcadas);
         } else {
-            sb.append("Médico indisponivel");
+            sb.append("Médico indisponivel\n");
+            
+            
         }
         return sb.toString();
 

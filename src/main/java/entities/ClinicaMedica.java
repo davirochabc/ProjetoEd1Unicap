@@ -38,7 +38,16 @@ public class ClinicaMedica {
     public void removeConsulta(Consultas consultas) {
         consulta.remove(consultas);
     }
-
+    
+    public void imprimirCatalogo(){
+        for(Medicos m : medico){
+            System.out.println("------Médico------");
+            System.out.println(m);
+            
+        }
+        }
+    
+    
     public Pacientes buscaPaciente(String nome) {
         for (Pacientes p : paciente) {
             String nomePaciente = p.getNome().trim();
@@ -58,6 +67,20 @@ public class ClinicaMedica {
         return null;
     }
 
+    public Medicos medicoMaisConsultas(){
+        if(medico.isEmpty()){
+            return null;
+        }
+        Medicos medicoRequisitado = medico.get(0);
+        
+        for(Medicos med : medico){
+            if(med.getConsultasMarcadas() > medicoRequisitado.getConsultasMarcadas()){
+                medicoRequisitado = med;
+            }
+        }
+        return medicoRequisitado;
+    }
+    
     public Medicos buscaMedico(String nome) {
         for (Medicos m : medico) {
             String nomeMedico = m.getNome().trim();

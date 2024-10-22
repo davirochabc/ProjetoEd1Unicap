@@ -17,6 +17,7 @@ public class Events {
     private Date date;
     private String local;
     private int capacity;
+    private int difCapacity;
 
     public Events() {
     }
@@ -25,8 +26,10 @@ public class Events {
         this.name = name;
         this.date = date;
         this.local = local;
-        this.capacity = capacity;
+        this.capacity = capacity;     
     }
+
+    
 
     public String getName() {
         return name;

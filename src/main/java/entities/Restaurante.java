@@ -15,7 +15,7 @@ public class Restaurante {
     }
 
     public void addMesas(Mesas mesas) {
-        mesa.add(mesas);
+        mesa.add(mesas);            
     }
 
     public void removeMesas(Mesas mesas) {
@@ -30,6 +30,18 @@ public class Restaurante {
             }
         }
         return null;
+    }
+    
+    public Mesas maisDinheiroMesa(){
+        Mesas maisDinheiroMesa = null;
+        double maiorTotal = 0.0;
+        for(Mesas m : mesa){
+            double totalMesa = m.getTotalPedido();
+            if(totalMesa > maiorTotal){
+                maiorTotal = totalMesa;
+                maisDinheiroMesa = m;
+            }
+        }return maisDinheiroMesa;
     }
 
     public void imprimirPedidos() {

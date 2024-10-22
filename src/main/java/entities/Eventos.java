@@ -34,6 +34,17 @@ public class Eventos {
     public void removeEvent(Events evento) {
         event.remove(evento);
     }
+    
+    public Events eventoFlopado(int capacidade){
+        Events eventoMenosVendas = event.get(0);
+        for(Events e : event){
+            if(e.getCapacity() > eventoMenosVendas.getCapacity()){
+                eventoMenosVendas = e;
+            }
+        }
+        return eventoMenosVendas;
+              
+    }
 
     public Events buscarEvento(String nome) {
         for (Events e : event) {

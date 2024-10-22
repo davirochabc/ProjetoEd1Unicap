@@ -17,7 +17,7 @@ public class Mesas {
 
     private Integer number;
     private String client;
-    private boolean status;
+    private Boolean status;
 
     public Mesas() {
     }
@@ -54,8 +54,15 @@ public class Mesas {
 
     public void addPedidos(Pedidos pedidos) {
         pedido.add(pedidos);
+             
     }
-
+    public double getTotalPedido(){
+       double total = 0.0; 
+       for(Pedidos p : pedido){
+           total += p.getTotal();
+       }
+       return total;
+    }
     public void removePedidos(Pedidos pedidos) {
         pedido.remove(pedidos);
     }
@@ -63,6 +70,7 @@ public class Mesas {
     public void limparPedido() {
         this.pedido.clear();
     }
+    
 
     public Pedidos buscaPedidos(String nome) {
         for (Pedidos p : pedido) {
@@ -82,6 +90,7 @@ public class Mesas {
         }
         return null;
     }
+    
 
     @Override
     public String toString() {

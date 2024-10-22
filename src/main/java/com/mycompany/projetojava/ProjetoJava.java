@@ -69,6 +69,13 @@ public class ProjetoJava {
     }
 
     public static void clinicaMenu(ClinicaMedica clinica, Medicos medico, Pacientes paciente) throws ParseException {
+        clinica.addMedico(new Medicos("Joao", "Pediatra", true));
+        clinica.addMedico(new Medicos("Maria", "Cirurgiã Geral", true));
+        clinica.addMedico(new Medicos("Carlos", "Cardiologista", true));
+        clinica.addMedico(new Medicos("Jose", "Psiquiatra", true));
+        clinica.addMedico(new Medicos("Katia", "Neurologista", false));
+        clinica.addMedico(new Medicos("Mauricio", "Ginecologista", true));
+
         Scanner s = new Scanner(System.in);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         boolean clinicRunning = true;
@@ -76,11 +83,12 @@ public class ProjetoJava {
         while (clinicRunning) {
             System.out.println("\n*** MENU DA CLÍNICA MÉDICA ***");
             System.out.println("1. Adicionar Paciente");
-            System.out.println("2. Adicionar Médico");
+            System.out.println("2. Catálogo dos medicos");
             System.out.println("3. Buscar Paciente");
             System.out.println("4. Buscar Médicos");
             System.out.println("5. Agendar consulta");
             System.out.println("6. Editar histórico do paciente");
+            System.out.println("7. Médicos mais requisitados");
             System.out.println("0. Voltar ao Menu Principal");
             System.out.print("Escolha uma opção: ");
 
@@ -104,19 +112,12 @@ public class ProjetoJava {
                     paciente = new Pacientes(nomeP, historico, idade, ultimaConsulta);
                     clinica.addPaciente(paciente);
                     break;
+
                 case 2:
-                    System.out.println("Digite o nome do médico: ");
-                    String nomeM = s.nextLine();
-                    System.out.println("Especialidade do médico: ");
-                    String especialidade = s.nextLine();
 
-                    System.out.println("Disponibilidade do médico: ");
-                    System.out.println("(true) - disponivel || (false) - indisponivel");
-                    boolean disponibilidade = s.nextBoolean();
-
-                    medico = new Medicos(nomeM, especialidade, disponibilidade);
-                    clinica.addMedico(medico);
+                    clinica.imprimirCatalogo();
                     break;
+
                 case 3:
                     System.out.println("Digite o nome do paciente que deseja encontrar: ");
                     String nomePaciente = s.nextLine();
@@ -130,7 +131,7 @@ public class ProjetoJava {
                     }
                     break;
                 case 4:
-                    System.out.println("Digite o nome do medico que deseja encontrar: ");
+                    System.out.println("Selecione  medico que deseja encontrar: ");
                     String nomeMedico = s.nextLine();
                     Medicos medicoEncontrado = clinica.buscaMedico(nomeMedico);
 
@@ -162,7 +163,8 @@ public class ProjetoJava {
                     if (procuraMedico != null) {
                         if (procuraMedico.isDisponibilidade() == true) {
                             System.out.println("Marcada");
-                            medico.setDisponibilidae(false);
+                            procuraMedico.incrementarConsultas();
+
                         } else {
                             System.out.println("Medico indisponivel");
                         }
@@ -178,8 +180,17 @@ public class ProjetoJava {
                         System.out.println("Atualize o historico do paciente: " + pacienteAlterado.getNome());
                         String novoHistorico = s.nextLine();
                         paciente.setHistorico(novoHistorico);
+                        break;
                     }
-
+                case 7:
+                    Medicos medicoMaisRequisitado = clinica.medicoMaisConsultas();
+                    if (medicoMaisRequisitado != null) {
+                        System.out.println("Médico mais requisitado:");
+                        System.out.println(medicoMaisRequisitado);
+                    } else {
+                        System.out.println("Nenhum médico registrado.");
+                    }
+                    break;
                 case 0:
                     clinicRunning = false;
                     break;
@@ -191,7 +202,7 @@ public class ProjetoJava {
     public static void eventosMenu(Eventos evento, Events event, ParticipanteEvento participante) throws ParseException {
         Scanner s = new Scanner(System.in);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
+        int capacidadeEvento = 0;
         boolean clinicaRunning = true;
 
         while (clinicaRunning) {
@@ -202,6 +213,7 @@ public class ProjetoJava {
             System.out.println("4. Catálogo de Evento");
             System.out.println("5. Buscar por participante");
             System.out.println("6. Alterar dados do evento");
+            System.out.println("7. Evento mais flopado");
             System.out.println("0. Voltar ao Menu Principal");
             System.out.print("Escolha uma opção: ");
 
@@ -224,13 +236,14 @@ public class ProjetoJava {
                     System.out.println(localEvento);
 
                     System.out.println("Digite a capacidade do evento: ");
-                    int capacidadeEvento = s.nextInt();
+                    capacidadeEvento = s.nextInt();
 
                     event = new Events(nomeEvento, dataEvento, localEvento, capacidadeEvento);
                     evento.addEvent(event);
                     break;
 
                 case 2:
+
                     System.out.println("Digite o nome do participante: ");
                     String nomeParticipante = s.nextLine();
 
@@ -248,13 +261,14 @@ public class ProjetoJava {
 
                     Events encontrarEvento = evento.buscarEvento(eventoNome);
                     if (encontrarEvento != null) {
-                        if (event.getCapacity() == 0) {
+                        if (encontrarEvento.getCapacity() == 0) {
                             System.out.println("Evento Lotado.");
                         } else {
                             participante = new ParticipanteEvento(nomeParticipante, inscricaoEvento, eventoNome);
                             evento.addParticipantes(participante);
                             System.out.println("Inscrição Realizada");
                             encontrarEvento.setCapacity(encontrarEvento.getCapacity() - 1);
+
                         }
                     } else {
                         System.out.println("Evento não encontrado");
@@ -343,6 +357,11 @@ public class ProjetoJava {
                             }
                         }
                     }
+
+                case 7:
+                    Events diferencaCapacidade = evento.eventoFlopado(capacidadeEvento);
+                    System.out.println(diferencaCapacidade);
+
                 case 0:
                     clinicaRunning = false;
                     break;
@@ -361,10 +380,10 @@ public class ProjetoJava {
             System.out.println("\n*** MENU DO RESTAURANTE ***");
             System.out.println("1. Reservar mesa");
             System.out.println("2. Fazer pedido");
-            System.out.println("3. Adicionar pedido");
-            System.out.println("4. Fechar conta");
-            System.out.println("5. Buscar mesa");
-            System.out.println("6. Buscar pedido");
+            System.out.println("3. Fechar conta");
+            System.out.println("4. Buscar mesa");
+            System.out.println("5. Buscar pedido");
+            System.out.println("6. Mesa mais lucrativa");
             System.out.println("0. Voltar ao Menu Principal");
             System.out.print("Escolha uma opção: ");
 
@@ -378,14 +397,19 @@ public class ProjetoJava {
                     int numeroMesa = s.nextInt();
 
                     s.nextLine();
+                    Mesas mesaExistentes = restauran.buscarMesa(numeroMesa);
+                    if (mesaExistentes != null) {
+                        System.out.println("A mesa #" + numeroMesa + " já está reservada por " + mesaExistentes.getClient());
+                        break;
+                    }
 
                     System.out.println("Digite o nome do cliente da mesa");
                     String clienteNome = s.nextLine();
 
                     boolean status = false;
 
-                    mesa = new Mesas(numeroMesa, clienteNome, status);
-                    restauran.addMesas(mesa);
+                    Mesas novaMesa = new Mesas(numeroMesa, clienteNome, status);
+                    restauran.addMesas(novaMesa);
 
                     System.out.println("Mesa reservada com sucesso");
                     break;
@@ -395,51 +419,74 @@ public class ProjetoJava {
                     s.nextLine();
                     Mesas buscarNumeroMesa = restauran.buscarMesa(numeroMesaPedido);
                     if (buscarNumeroMesa != null) {
-                        System.out.println("Digite o pedido: ");
-                        String order = s.nextLine();
+                        System.out.println("Selecione um pedido do cardápio:");
+                        System.out.println("1. Pizza - R$30.00");
+                        System.out.println("2. Hambúrguer - R$20.00");
+                        System.out.println("3. Salada - R$15.00");
+                        System.out.println("4. Refrigerante - R$5.00");
+                        System.out.println("5. Sair");
+                        int opcaoPedido = s.nextInt();
+                        int quantidade = 0;
+                        double precoPedido = 0;
+                        String nomePedido = "";
 
-                        System.out.println("Valor do pedido");
-                        double preco = s.nextDouble();
+                        switch (opcaoPedido) {
 
-                        System.out.println("Quantidade do pedido");
-                        int quantidade = s.nextInt();
+                            case 1:
+                                nomePedido = "Pizza";
+                                precoPedido = 30.00;
+                                System.out.println("Digite a quantidade do pedido");
+                                int quantidadePedido = s.nextInt();
+                                pedido = new Pedidos(nomePedido, quantidadePedido, precoPedido);
+                                buscarNumeroMesa.addPedidos(pedido);
+                                break;
+                            case 2:
+                                nomePedido = "Hambúrguer";
+                                precoPedido = 20.00;
+                                System.out.println("Digite a quantidade do pedido");
+                                quantidadePedido = s.nextInt();
+                                pedido = new Pedidos(nomePedido, quantidadePedido, precoPedido);
+                                buscarNumeroMesa.addPedidos(pedido);
+                                break;
+                            case 3:
+                                nomePedido = "Salada";
+                                precoPedido = 15.00;
+                                System.out.println("Digite a quantidade do pedido");
+                                quantidadePedido = s.nextInt();
+                                pedido = new Pedidos(nomePedido, quantidadePedido, precoPedido);
+                                buscarNumeroMesa.addPedidos(pedido);
+                                break;
+                            case 4:
+                                nomePedido = "Refrigerante";
+                                precoPedido = 5.00;
+                                System.out.println("Digite a quantidade do pedido");
+                                quantidadePedido = s.nextInt();
+                                pedido = new Pedidos(nomePedido, quantidadePedido, precoPedido);
+                                buscarNumeroMesa.addPedidos(pedido);
+                                break;
+                            case 0:
+                                System.out.println("Saindo do cardapio");
+                                break;
+                            default:
+                                System.out.println("Opção inválida");
+                                break;
 
-                        pedido = new Pedidos(order, quantidade, preco);
-                        mesa.addPedidos(pedido);
-                        break;
+                        }
+                        System.out.println(pedido);
                     } else {
                         System.out.println("Mesa vazia");
                         break;
                     }
+                    break;
                 case 3:
-                    System.out.println("Digite o numero da mesa que fará um novo pedido.");
-                    int numeroMesaNovoPedido = s.nextInt();
-                    s.nextLine();
-                    buscarNumeroMesa = restauran.buscarMesa(numeroMesaNovoPedido);
-                    if (buscarNumeroMesa != null) {
-                        System.out.println("Digite o pedido: ");
-                        String order = s.nextLine();
-
-                        System.out.println("Valor do pedido");
-                        double preco = s.nextDouble();
-
-                        System.out.println("Quantidade do pedido");
-                        int quantidade = s.nextInt();
-
-                        pedido = new Pedidos(order, quantidade, preco);
-                        mesa.addPedidos(pedido);
-                        break;
-                    } else {
-                        System.out.println("Mesa não encontrada");
-                    }
-                case 4:
                     System.out.println("Digite o numero da mesa: ");
                     int numeroMesaConta = s.nextInt();
                     s.nextLine();
                     buscarNumeroMesa = restauran.buscarMesa(numeroMesaConta);
                     if (buscarNumeroMesa != null) {
                         System.out.println(mesa);
-                        System.out.println("Conta paga. Mesa desocupada");
+                        System.out.println("Efetuando pagamento");
+                        System.out.println("Conta paga: Mesa desocupada");
                         buscarNumeroMesa.setClient(null);
                         buscarNumeroMesa.setStatus(true);
                         buscarNumeroMesa.limparPedido();
@@ -447,16 +494,16 @@ public class ProjetoJava {
                     } else {
                         System.out.println("Código da mesa inválido");
                     }
-                case 5:
+                case 4:
                     System.out.println("Digite o numero da mesa: ");
                     int numeroMesaBusca = s.nextInt();
                     s.nextLine();
-                    buscarNumeroMesa = restauran.buscarMesa(numeroMesaBusca);
-                    if (buscarNumeroMesa != null) {
-                        System.out.println(mesa);
+                    Mesas buscarNumeroMesap = restauran.buscarMesa(numeroMesaBusca);
+                    if (buscarNumeroMesap != null) {
+                        System.out.println(buscarNumeroMesap);
                     }
                     break;
-                case 6:
+                case 5:
                     System.out.println("Digite o nome do seu pedido: ");
                     String nomePedidoBusca = s.nextLine();
 
@@ -465,6 +512,16 @@ public class ProjetoJava {
                         System.out.println(pedidoEncontrado);
                     }
                     break;
+
+                case 6:
+                    Mesas mesaQueFezMaisDin = restauran.maisDinheiroMesa();
+                    if (mesaQueFezMaisDin != null) {
+                        System.out.println("Mesa que fez mais dinheiro: #" + mesaQueFezMaisDin.getNumber());
+                        System.out.println("Cliente: " + mesaQueFezMaisDin.getClient());
+                        System.out.println("Total: R$" + mesaQueFezMaisDin.getTotalPedido());
+                    } else {
+                        System.out.println("Nenhuma mesa encontrada");
+                    }
                 case 0:
                     restRunning = false;
                     break;

@@ -43,6 +43,8 @@ public class Pedidos {
         double total = quantity * price;
         return total;
     }
+    
+    
 
     @Override
     public String toString() {

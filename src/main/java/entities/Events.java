@@ -4,8 +4,8 @@
  */
 package entities;
 
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *

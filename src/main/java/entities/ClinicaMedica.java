@@ -1,8 +1,5 @@
 package entities;
 
-import entities.Medicos;
-import entities.Pacientes;
-import entities.Consultas;
 import java.util.ArrayList;
 import java.util.List;
 

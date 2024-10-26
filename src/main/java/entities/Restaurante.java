@@ -21,6 +21,9 @@ public class Restaurante {
     public void removeMesas(Mesas mesas) {
         mesa.add(mesas);
     }
+    public void limparMesas(){
+        this.mesa.clear();
+    }
 
     public Mesas buscarMesa(int codigo) {
         for (Mesas m : mesa) {

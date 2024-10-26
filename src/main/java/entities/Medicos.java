@@ -4,8 +4,6 @@
  */
 package entities;
 
-import java.text.SimpleDateFormat;
-
 /**
  *
  * @author j040v

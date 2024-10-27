@@ -96,5 +96,15 @@ public class ClinicaMedica {
         }
         return null;
     }
+    public Medicos buscarCRM(int CRM) {
+        for (Medicos m : medico) {
+            int codigo = m.getCRM();
+            if (codigo == CRM) {
+                return m;
+            }
+        }
+        return null;
+    }
+   
 
 }

@@ -14,14 +14,16 @@ public class Medicos {
     private String especialidade;
     private Boolean disponibilidae;
     private Integer consultasMarcadas;
+    private Integer CRM;
 
     public Medicos() {
     }
 
-    public Medicos(String nome, String especialidade, boolean disponibilidae) {
+    public Medicos(String nome, String especialidade, boolean disponibilidae, Integer CRM) {
         this.nome = nome;
         this.especialidade = especialidade;
         this.disponibilidae = disponibilidae;
+        this.CRM = CRM;
         this.consultasMarcadas = 0;
     }
 
@@ -55,6 +57,10 @@ public class Medicos {
     public void setDisponibilidae(boolean disponibilidae) {
         this.disponibilidae = disponibilidae;
     }
+
+    public Integer getCRM() {
+        return CRM;
+    }  
 
     @Override
     public String toString() {

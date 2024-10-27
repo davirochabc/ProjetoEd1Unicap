@@ -17,7 +17,6 @@ public class Events {
     private Date date;
     private String local;
     private int capacity;
-    private int difCapacity;
 
     public Events() {
     }

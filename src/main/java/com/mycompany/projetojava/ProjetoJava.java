@@ -69,7 +69,7 @@ public class ProjetoJava {
                     eventosMenu(evento, event, participante, listaEventos, listaParticipantes);
                     break;
                 case 3:
-                    restauranteMenu(restauran, pedido, mesa, listaMesas, listaPedidos);
+                    restauranteMenu(restauran, pedido, mesa, listaMesas, listaPedidos, clinica);
                     break;
                 case 0:
                     running = false;
@@ -80,12 +80,12 @@ public class ProjetoJava {
     }
 
     public static void clinicaMenu(ClinicaMedica clinica, Medicos medico, Pacientes paciente, ListaEncadeadaPacientes listaPacientes) throws ParseException {
-        clinica.addMedico(new Medicos("Joao", "Pediatra", true));
-        clinica.addMedico(new Medicos("Maria", "Cirurgiã Geral", true));
-        clinica.addMedico(new Medicos("Carlos", "Cardiologista", true));
-        clinica.addMedico(new Medicos("Jose", "Psiquiatra", true));
-        clinica.addMedico(new Medicos("Katia", "Neurologista", false));
-        clinica.addMedico(new Medicos("Mauricio", "Ginecologista", true));
+        clinica.addMedico(new Medicos("Joao", "Pediatra", true, 5234));
+        clinica.addMedico(new Medicos("Maria", "Cirurgiã Geral", true, 4215));
+        clinica.addMedico(new Medicos("Carlos", "Cardiologista", true, 5521));
+        clinica.addMedico(new Medicos("Jose", "Psiquiatra", true,4233));
+        clinica.addMedico(new Medicos("Katia", "Neurologista", false, 5523));
+        clinica.addMedico(new Medicos("Mauricio", "Ginecologista", true, 1224));
 
         Scanner s = new Scanner(System.in);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -239,6 +239,7 @@ public class ProjetoJava {
             System.out.println("6. Listas de todos os participantes de todos os eventos");
             System.out.println("7. Alterar dados do evento");
             System.out.println("8. Evento mais flopado");
+            System.out.println("9. Mais inscrições");
             System.out.println("0. Voltar ao Menu Principal");
             System.out.print("Escolha uma opção: ");
 
@@ -270,8 +271,7 @@ public class ProjetoJava {
 
                     break;
 
-                case 2:
-
+                case 2:                    
                     System.out.println("Digite o nome do participante: ");
                     String nomeParticipante = s.nextLine();
 
@@ -298,6 +298,7 @@ public class ProjetoJava {
                             listaParticipantes.inserirParticipante(participante);
 
                             System.out.println("Inscrição Realizada");
+                            participante.incrementar();
                             encontrarEvento.setCapacity(encontrarEvento.getCapacity() - 1);
 
                         }
@@ -397,7 +398,10 @@ public class ProjetoJava {
                 case 8:
                     Events diferencaCapacidade = evento.eventoFlopado(capacidadeEvento);
                     System.out.println(diferencaCapacidade);
-
+                    break;
+                case 9:
+                    ParticipanteEvento maisInscricoes = evento.encontrarMaisInscricoes();
+                    System.out.println(maisInscricoes);
                 case 0:
                     clinicaRunning = false;
                     break;
@@ -406,10 +410,10 @@ public class ProjetoJava {
         }
     }
 
-    public static void restauranteMenu(Restaurante restauran, Pedidos pedido, Mesas mesa, ListaEncadeadaMesa listaMesas, ListaEncadeadaPedidos listaPedidos) {
+    public static void restauranteMenu(Restaurante restauran, Pedidos pedido, Mesas mesa, ListaEncadeadaMesa listaMesas, ListaEncadeadaPedidos listaPedidos, ClinicaMedica clinica) {
         Scanner s = new Scanner(System.in);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
+        boolean isMedico = false;
         boolean restRunning = true;
 
         while (restRunning) {
@@ -417,9 +421,10 @@ public class ProjetoJava {
             System.out.println("1. Reservar mesa");
             System.out.println("2. Fazer pedido");
             System.out.println("3. Fechar conta");
-            System.out.println("4. Buscar mesa");           
-            System.out.println("5. Mesa mais lucrativa");
-            System.out.println("6. Exibir todos os pedidos feitos");
+            System.out.println("4. Fechar pedido para Médico");
+            System.out.println("5. Buscar mesa");           
+            System.out.println("6. Mesa mais lucrativa");
+            System.out.println("7. Exibir todos os pedidos feitos");
             System.out.println("0. Voltar ao Menu Principal");
             System.out.print("Escolha uma opção: ");
 
@@ -528,24 +533,44 @@ public class ProjetoJava {
                         break;
                     }
                     break;
-                case 3:
+                case 3:                                   
                     System.out.println("Digite o numero da mesa: ");
                     int numeroMesaConta = s.nextInt();
                     s.nextLine();
                     buscarNumeroMesa = restauran.buscarMesa(numeroMesaConta);
-                    if (buscarNumeroMesa != null) {
+                    if (buscarNumeroMesa != null){
                         System.out.println(buscarNumeroMesa);
                         System.out.println("Efetuando pagamento");
-                        System.out.println("Conta paga: Mesa desocupada");
-                        
+                        System.out.println("Conta paga: Mesa desocupada");                       
                         buscarNumeroMesa.limparPedido();
-                        restauran.limparMesas();;
+                        restauran.limparMesas();
                         listaMesas.removerMesa(numeroMesaConta);
                         break;
+                        
                     } else {
                         System.out.println("Código da mesa inválido");
                     }
                 case 4:
+                    System.out.println("Digite o CRM do médico: ");
+                    int CRM = s.nextInt();
+                    s.nextLine();
+                    Medicos procurarCRM = clinica.buscarCRM(CRM);
+                    if(procurarCRM != null){
+                        isMedico = true;
+                        System.out.println("Digite o numero da mesa: ");
+                        int numeroMesaMedico = s.nextInt();
+                        buscarNumeroMesa = restauran.buscarMesa(numeroMesaMedico);
+                        if(buscarNumeroMesa != null){
+                        pedido.setIsMedico(isMedico);
+                        System.out.println("Efetuando pagamento");
+                        System.out.println("Conta paga: Mesa desocupada");                       
+                        buscarNumeroMesa.limparPedido();
+                        restauran.limparMesas();
+                        listaMesas.removerMesa(numeroMesaMedico);
+                        break;  
+                        }
+                    }
+                case 5:
                     System.out.println("Digite o numero da mesa: ");
                     int numeroMesaBusca = s.nextInt();
                     s.nextLine();
@@ -556,7 +581,7 @@ public class ProjetoJava {
                         System.out.println("Mesa desocupada");
                     }
                     break;
-                case 5:
+                case 6:
                     Mesas mesaQueFezMaisDin = restauran.maisDinheiroMesa();
                     if (mesaQueFezMaisDin != null) {
                         System.out.println("Mesa que fez mais dinheiro: #" + mesaQueFezMaisDin.getNumber());
@@ -569,7 +594,7 @@ public class ProjetoJava {
                     restRunning = false;
                     break;
 
-                case 6:
+                case 7:
                     listaPedidos.exibirPedidos();
             }
         }

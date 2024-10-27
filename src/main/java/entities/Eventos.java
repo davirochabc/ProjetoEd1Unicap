@@ -34,6 +34,20 @@ public class Eventos {
     public void removeEvent(Events evento) {
         event.remove(evento);
     }
+    public ParticipanteEvento encontrarMaisInscricoes() {
+        if (participantes.isEmpty()) {
+            return null; // Nenhum participante inscrito
+        }
+
+        ParticipanteEvento maisInscrito = participantes.get(0);
+        for (ParticipanteEvento p : participantes) {
+            if (p.getNumeroEvento() > maisInscrito.getNumeroEvento()) {
+                maisInscrito = p;
+            }
+        }
+        return maisInscrito;
+    }
+
     
     public Events eventoFlopado(int capacidade){
         Events eventoMenosVendas = event.get(0);

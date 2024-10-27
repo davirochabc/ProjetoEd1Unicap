@@ -34,11 +34,10 @@ private NodoPedidos head;
 
         NodoPedidos temp = head;
         while (temp != null) {
+            System.out.println("-------Pedidos-------");
             System.out.println(temp.data);
             temp = temp.next;
         }
     }
-    
-
        
 }

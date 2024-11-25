@@ -56,6 +56,9 @@ public class Pacientes implements Comparable<Pacientes>{
     public int getGrau(){
         return grau;
     }
+    public void setGrau(int grau){
+        this.grau = grau;
+    }
 
     @Override
     public String toString() {

@@ -8,24 +8,27 @@ package entities;
  *
  * @author j040v
  */
-public class Pedidos {
+public class Pedidos implements Comparable<Pedidos> {
 
     private String orderName;
+    private Integer tempo;
     private Integer quantity;
     private Double price;
     private Boolean isMedico = false;
-
+    
     public Pedidos() {
     }
 
-    public Pedidos(String orderName, Integer quantity, Double price) {
+    public Pedidos(String orderName,Integer tempo, Integer quantity, Double price) {
         this.orderName = orderName;
+        this.tempo = tempo;
         this.quantity = quantity;
         this.price = price;
     }
 
-    public Pedidos(String orderName, Integer quantity, Double price, Boolean isMedico) {
+    public Pedidos(String orderName, Integer tempo,Integer quantity, Double price, Boolean isMedico) {
         this.orderName = orderName;
+        this.tempo = tempo;
         this.quantity = quantity;
         this.price = price;
         this.isMedico = isMedico;
@@ -42,7 +45,13 @@ public class Pedidos {
     public Integer getQuantity() {
         return quantity;
     }
-
+    public Integer getTempo(){
+        return tempo;
+    }
+    
+    public void setTempo(){
+        this.tempo = tempo;
+    }
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
@@ -58,7 +67,7 @@ public class Pedidos {
         }
         return total;
     }      
-
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -69,5 +78,9 @@ public class Pedidos {
         sb.append("Total a pagar: R$" + getTotal() + "\n");
         }
         return sb.toString();
+    }
+    @Override
+    public int compareTo(Pedidos outro) {
+        return Integer.compare(this.tempo, outro.tempo);
     }
 }

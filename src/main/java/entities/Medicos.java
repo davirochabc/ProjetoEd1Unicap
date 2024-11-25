@@ -14,12 +14,12 @@ public class Medicos {
     private String especialidade;
     private Boolean disponibilidae;
     private Integer consultasMarcadas;
-    private Integer CRM;
+    private int CRM;
 
     public Medicos() {
     }
 
-    public Medicos(String nome, String especialidade, boolean disponibilidae, Integer CRM) {
+    public Medicos(String nome, String especialidade, boolean disponibilidae, int CRM) {
         this.nome = nome;
         this.especialidade = especialidade;
         this.disponibilidae = disponibilidae;
@@ -58,7 +58,7 @@ public class Medicos {
         this.disponibilidae = disponibilidae;
     }
 
-    public Integer getCRM() {
+    public int getCRM() {
         return CRM;
     }  
 
@@ -66,7 +66,8 @@ public class Medicos {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Nome do medico: " + nome+"\n");       
-        sb.append("Especialidade: " + especialidade+"\n");            
+        sb.append("Especialidade: " + especialidade+"\n");  
+        sb.append("CRM: " + CRM+"\n");
         if (disponibilidae == true) {
             sb.append("Médico Disponivel\n");
             sb.append("Consultas marcadas: " + consultasMarcadas);

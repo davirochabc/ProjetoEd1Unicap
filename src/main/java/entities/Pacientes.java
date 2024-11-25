@@ -11,22 +11,23 @@ import java.util.Date;
  *
  * @author j040v
  */
-public class Pacientes {
+public class Pacientes implements Comparable<Pacientes>{
 
     private String name;
     private String history;
     private Integer age;
     private Date moment;
+    private int grau;
 
     public Pacientes() {
     }
 
-    public Pacientes(String nome, String historico, Integer age, Date moment) {
+    public Pacientes(String nome, String historico, Integer age, Date moment, Integer grau) {
         this.name = nome;
         this.history = historico;
         this.age = age;
         this.moment = moment;
-
+        this.grau = grau;
     }
 
     public String getNome() {
@@ -52,6 +53,9 @@ public class Pacientes {
     public void setMoment(Date moment) {
         this.moment = moment;
     }
+    public int getGrau(){
+        return grau;
+    }
 
     @Override
     public String toString() {
@@ -64,11 +68,17 @@ public class Pacientes {
         sb.append(age + "\n");
         sb.append("Registro Médico: ");
         sb.append(history + "\n");
+        sb.append("Grau de Prioridade:");
+        sb.append(grau + "\n");
         sb.append("Ultima consulta: ");
         sb.append(sdf.format(moment) + "\n");
 
         return sb.toString();
 
+    }
+  @Override  
+    public int compareTo(Pacientes outro) {
+        return Integer.compare(outro.grau, this.grau);
     }
 
 }

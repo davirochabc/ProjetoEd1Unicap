@@ -8,6 +8,8 @@ import java.util.Scanner;
 import entities.ClinicaMedica;
 import entities.Eventos;
 import entities.Events;
+import entities.FilaPaciente;
+import entities.PilhaMesa;
 import entities.ListaEncadeadaEventos;
 import entities.ListaEncadeadaMesa;
 import entities.ListaEncadeadaPacientes;
@@ -33,6 +35,9 @@ public class ProjetoJava {
         ListaEncadeadaParticipantes listaParticipantes = new ListaEncadeadaParticipantes();
         ListaEncadeadaMesa listaMesas = new ListaEncadeadaMesa();
         ListaEncadeadaPedidos listaPedidos = new ListaEncadeadaPedidos();
+
+        FilaPaciente filaPaciente = new FilaPaciente();
+        PilhaMesa pilhaMesa = new PilhaMesa();
 
         ClinicaMedica clinica = new ClinicaMedica();
         Medicos medico = new Medicos();
@@ -62,14 +67,14 @@ public class ProjetoJava {
             int op = s.nextInt();
             switch (op) {
                 case 1:
-                    clinicaMenu(clinica, medico, paciente, listaPacientes);
+                    clinicaMenu(clinica, medico, paciente, listaPacientes, filaPaciente);
                     break;
 
                 case 2:
                     eventosMenu(evento, event, participante, listaEventos, listaParticipantes);
                     break;
                 case 3:
-                    restauranteMenu(restauran, pedido, mesa, listaMesas, listaPedidos, clinica);
+                    restauranteMenu(restauran, pedido, mesa, listaMesas, listaPedidos, pilhaMesa, clinica);
                     break;
                 case 0:
                     running = false;
@@ -79,11 +84,11 @@ public class ProjetoJava {
 
     }
 
-    public static void clinicaMenu(ClinicaMedica clinica, Medicos medico, Pacientes paciente, ListaEncadeadaPacientes listaPacientes) throws ParseException {
+    public static void clinicaMenu(ClinicaMedica clinica, Medicos medico, Pacientes paciente, ListaEncadeadaPacientes listaPacientes, FilaPaciente filaPaciente) throws ParseException {
         clinica.addMedico(new Medicos("Joao", "Pediatra", true, 5234));
         clinica.addMedico(new Medicos("Maria", "Cirurgiã Geral", true, 4215));
         clinica.addMedico(new Medicos("Carlos", "Cardiologista", true, 5521));
-        clinica.addMedico(new Medicos("Jose", "Psiquiatra", true,4233));
+        clinica.addMedico(new Medicos("Jose", "Psiquiatra", true, 4233));
         clinica.addMedico(new Medicos("Katia", "Neurologista", false, 5523));
         clinica.addMedico(new Medicos("Mauricio", "Ginecologista", true, 1224));
 
@@ -96,7 +101,7 @@ public class ProjetoJava {
             System.out.println("1. Adicionar Paciente");
             System.out.println("2. Catálogo dos pacientes");
             System.out.println("3. Catálogo dos médicos");
-            System.out.println("4. Remover Paciente");
+            System.out.println("4. Atender Paciente");
             System.out.println("5. Buscar Médicos");
             System.out.println("6. Agendar consulta");
             System.out.println("7. Editar histórico do paciente");
@@ -117,43 +122,36 @@ public class ProjetoJava {
                     System.out.println("Digite a idade do paciente: ");
                     int idade = s.nextInt();
 
+                    System.out.println("Digite o grau de risco do paciente :");
+                    int grau = s.nextInt();
+
                     System.out.println("Informe a última consulta do paciente: ");
                     System.out.println("Formato dd/MM/yyyy");
                     Date ultimaConsulta = sdf.parse(s.next());
 
-                    paciente = new Pacientes(nomeP, historico, idade, ultimaConsulta);
+                    paciente = new Pacientes(nomeP, historico, idade, ultimaConsulta, grau);
                     clinica.addPaciente(paciente);
 
-                    listaPacientes.inserirPaciente(paciente);
+                    filaPaciente.adicionarPaciente(paciente);
                     break;
 
                 case 2:
 
-                    listaPacientes.exibirPacientes();
+                    filaPaciente.exibirFila();
 
                     break;
-                    
+
                 case 3:
 
-                    clinica.imprimirCatalogo();                    
+                    clinica.imprimirCatalogo();
 
                     break;
 
                 case 4:
-                    System.out.println("Digite o nome do paciente que deseja remover: ");
-                    String nomePaciente = s.nextLine();
-                    Pacientes pacienteEncontrado = clinica.buscaPaciente(nomePaciente);
-                    if (pacienteEncontrado != null) {
-                        System.out.println("Paciente: ");
-                        System.out.println(pacienteEncontrado + " Removido com sucesso");
-                        clinica.removePaciente(pacienteEncontrado);
+                    filaPaciente.atenderPaciente();
 
-                        listaPacientes.removerPaciente(nomePaciente);
-
-                    } else {
-                        System.out.println("Paciente não encontrado");
-                    }
                     break;
+
                 case 5:
                     System.out.println("Selecione  medico que deseja encontrar: ");
                     String nomeMedico = s.nextLine();
@@ -167,14 +165,14 @@ public class ProjetoJava {
                     }
                     break;
                 case 6:
-                    System.out.println("Digite seu nome: ");
-                    String nomePacienteConsulta = s.nextLine();
-
-                    System.out.println("Digite o historico do paciente: ");
-                    String historicoConsulta = s.nextLine();
-
-                    System.out.println("Digite sua idade: ");
-                    int idadeConsulta = s.nextInt();
+                    System.out.println("Digite o nome do paciente que deseja marcar uma consulta:");
+                    String pacienteP = s.nextLine();
+                    Pacientes pacienteFind = filaPaciente.buscarPaciente(pacienteP);
+                    while (pacienteFind == null) {
+                        System.out.print("Digite o nome do paciente que deseja marcar uma consulta: ");
+                        pacienteP = s.nextLine();
+                        pacienteFind = filaPaciente.buscarPaciente(pacienteP);
+                    }
 
                     System.out.println("Informe a data da consulta que deseja: ");
                     System.out.println("Formato dd/MM/yyyy");
@@ -199,7 +197,7 @@ public class ProjetoJava {
                 case 7:
                     System.out.println("Digite o nome do paciente que deseja encontrar: ");
                     String alterarPaciente = s.nextLine();
-                    Pacientes pacienteAlterado = clinica.buscaPaciente(alterarPaciente);
+                    Pacientes pacienteAlterado = filaPaciente.buscarPaciente(alterarPaciente);
                     if (pacienteAlterado != null) {
                         System.out.println("Atualize o historico do paciente: " + pacienteAlterado.getNome());
                         String novoHistorico = s.nextLine();
@@ -271,7 +269,7 @@ public class ProjetoJava {
 
                     break;
 
-                case 2:                    
+                case 2:
                     System.out.println("Digite o nome do participante: ");
                     String nomeParticipante = s.nextLine();
 
@@ -410,7 +408,7 @@ public class ProjetoJava {
         }
     }
 
-    public static void restauranteMenu(Restaurante restauran, Pedidos pedido, Mesas mesa, ListaEncadeadaMesa listaMesas, ListaEncadeadaPedidos listaPedidos, ClinicaMedica clinica) {
+    public static void restauranteMenu(Restaurante restauran, Pedidos pedido, Mesas mesa, ListaEncadeadaMesa listaMesas, ListaEncadeadaPedidos listaPedidos, PilhaMesa pilhaMesa, ClinicaMedica clinica) {
         Scanner s = new Scanner(System.in);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         boolean isMedico = false;
@@ -420,11 +418,13 @@ public class ProjetoJava {
             System.out.println("\n*** MENU DO RESTAURANTE ***");
             System.out.println("1. Reservar mesa");
             System.out.println("2. Fazer pedido");
-            System.out.println("3. Fechar conta");
-            System.out.println("4. Fechar pedido para Médico");
-            System.out.println("5. Buscar mesa");           
-            System.out.println("6. Mesa mais lucrativa");
-            System.out.println("7. Exibir todos os pedidos feitos");
+            System.out.println("3. Remover último pedido");
+            System.out.println("4. Desfazer última alteração");
+            System.out.println("5. Fechar conta");
+            System.out.println("6. Fechar conta para Médico");
+            System.out.println("7. Buscar mesa");
+            System.out.println("8. Mesa mais lucrativa");
+            System.out.println("9. Exibir todos os pedidos feitos");
             System.out.println("0. Voltar ao Menu Principal");
             System.out.print("Escolha uma opção: ");
 
@@ -483,7 +483,7 @@ public class ProjetoJava {
                                 pedido = new Pedidos(nomePedido, quantidadePedido, precoPedido);
                                 buscarNumeroMesa.addPedidos(pedido);
 
-                                listaPedidos.inserirPedido(pedido);
+                                pilhaMesa.addPedido(pedido);
 
                                 break;
                             case 2:
@@ -494,7 +494,7 @@ public class ProjetoJava {
                                 pedido = new Pedidos(nomePedido, quantidadePedido, precoPedido);
                                 buscarNumeroMesa.addPedidos(pedido);
 
-                                listaPedidos.inserirPedido(pedido);
+                                pilhaMesa.addPedido(pedido);
 
                                 break;
                             case 3:
@@ -505,7 +505,7 @@ public class ProjetoJava {
                                 pedido = new Pedidos(nomePedido, quantidadePedido, precoPedido);
                                 buscarNumeroMesa.addPedidos(pedido);
 
-                                listaPedidos.inserirPedido(pedido);
+                                pilhaMesa.addPedido(pedido);
 
                                 break;
                             case 4:
@@ -516,7 +516,7 @@ public class ProjetoJava {
                                 pedido = new Pedidos(nomePedido, quantidadePedido, precoPedido);
                                 buscarNumeroMesa.addPedidos(pedido);
 
-                                listaPedidos.inserirPedido(pedido);
+                                pilhaMesa.addPedido(pedido);
 
                                 break;
                             case 0:
@@ -533,55 +533,91 @@ public class ProjetoJava {
                         break;
                     }
                     break;
-                case 3:                                   
+
+                case 3:
+                    System.out.println("Digite o número da mesa para remover o último pedido:");
+                    int mesaNumeroRemover = s.nextInt();
+                    s.nextLine();
+                    Mesas mesaRemovePedido = restauran.buscarMesa(mesaNumeroRemover);
+                    if (mesaRemovePedido != null) {
+                          Pedidos ultimoPedido = pilhaMesa.removerUltimoPedido();
+                        if (ultimoPedido != null) {
+                            mesaRemovePedido.removePedidos(ultimoPedido);  
+                        }
+                    } else {
+                        System.out.println("Mesa não encontrada.");
+                    }
+                    break;
+
+                case 4:
+                    System.out.println("Desfazendo a última alteração:");
+                    pilhaMesa.desfazerAlt();
+                    break;
+
+                case 5:
                     System.out.println("Digite o numero da mesa: ");
                     int numeroMesaConta = s.nextInt();
                     s.nextLine();
                     buscarNumeroMesa = restauran.buscarMesa(numeroMesaConta);
-                    if (buscarNumeroMesa != null){
+                    if (buscarNumeroMesa != null) {
                         System.out.println(buscarNumeroMesa);
                         System.out.println("Efetuando pagamento");
-                        System.out.println("Conta paga: Mesa desocupada");                       
+                        System.out.println("Conta paga: Mesa desocupada");
                         buscarNumeroMesa.limparPedido();
                         restauran.limparMesas();
                         listaMesas.removerMesa(numeroMesaConta);
                         break;
-                        
+
                     } else {
                         System.out.println("Código da mesa inválido");
                     }
-                case 4:
+                case 6:
                     System.out.println("Digite o CRM do médico: ");
                     int CRM = s.nextInt();
                     s.nextLine();
                     Medicos procurarCRM = clinica.buscarCRM(CRM);
-                    if(procurarCRM != null){
+                    if (procurarCRM != null) {
                         isMedico = true;
-                        System.out.println("Digite o numero da mesa: ");
+                        System.out.println("Digite o número da mesa: ");
                         int numeroMesaMedico = s.nextInt();
+                        s.nextLine();
                         buscarNumeroMesa = restauran.buscarMesa(numeroMesaMedico);
-                        if(buscarNumeroMesa != null){
-                        pedido.setIsMedico(isMedico);
-                        System.out.println("Efetuando pagamento");
-                        System.out.println("Conta paga: Mesa desocupada");                       
-                        buscarNumeroMesa.limparPedido();
-                        restauran.limparMesas();
-                        listaMesas.removerMesa(numeroMesaMedico);
-                        break;  
+                        if (buscarNumeroMesa != null) {
+                            pedido.setIsMedico(isMedico);
+                            double valorTotal = buscarNumeroMesa.getTotalPedido();
+                            if (isMedico) {
+                                double valorDesconto = valorTotal * 0.90;
+                                System.out.println("Valor original: R$" + valorTotal);
+                                System.out.println("Valor com desconto de 10%: R$" + valorDesconto);
+                            } else {
+                                System.out.println("Valor Total: R$" + valorTotal);
+                            }
+
+                            System.out.println("Efetuando pagamento");
+                            System.out.println("Conta paga: Mesa desocupada");
+                            buscarNumeroMesa.limparPedido();
+                            restauran.limparMesas();
+                            listaMesas.removerMesa(numeroMesaMedico);
+                            break;
+                        } else {
+                            System.out.println("Mesa não encontrada!");
                         }
+                    } else {
+                        System.out.println("CRM inválido! Não foi possível aplicar desconto.");
                     }
-                case 5:
+
+                case 7:
                     System.out.println("Digite o numero da mesa: ");
                     int numeroMesaBusca = s.nextInt();
                     s.nextLine();
                     Mesas buscarNumeroMesap = restauran.buscarMesa(numeroMesaBusca);
                     if (buscarNumeroMesap != null) {
-                        System.out.println(buscarNumeroMesap);                        
-                    }else{
+                        System.out.println(buscarNumeroMesap);
+                    } else {
                         System.out.println("Mesa desocupada");
                     }
                     break;
-                case 6:
+                case 8:
                     Mesas mesaQueFezMaisDin = restauran.maisDinheiroMesa();
                     if (mesaQueFezMaisDin != null) {
                         System.out.println("Mesa que fez mais dinheiro: #" + mesaQueFezMaisDin.getNumber());
@@ -594,8 +630,8 @@ public class ProjetoJava {
                     restRunning = false;
                     break;
 
-                case 7:
-                    listaPedidos.exibirPedidos();
+                case 9:
+                    pilhaMesa.exibirPedido();
             }
         }
     }

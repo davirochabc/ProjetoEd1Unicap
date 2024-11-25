@@ -39,6 +39,22 @@ public class ListaEncadeadaPacientes {
             temp = temp.next;
         }
     }
+    public Pacientes buscarPaciente(String nome){
+        if (head == null) {
+            System.out.println("Nenhum paciente na lista.");
+            return null;
+        }
+        NodoPaciente temp = head;
+        while(temp != null){
+            if (temp.data.getNome().equalsIgnoreCase(nome)) {
+               return temp.data; 
+            }
+            temp = temp.next;
+        }
+        System.out.println("Paciente não encontrado.");
+        return null;
+    }
+
 
     // Método para remover um paciente (exemplo básico)
     public void removerPaciente(String nome) {

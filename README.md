@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <h1>Projeto Java</h1>
 <h2>Alunos: João Victor Muniz Rocha e Davi Rocha de Barros Carvalho</h2>
 <p>Este é um sistema de gerenciamento para uma clínica médica, eventos e um restaurante, desenvolvido em Java. 
@@ -67,3 +68,6 @@
 <h3>Lógica por tras do Main</h3>  
 <p>Após organizar todas as classes e List, instanciei todos os construtores no main para a manipulação nos switch case ficasse mais simples. Fiz um menu principal para o usuario decidir em que setor ele quer manipular e fiz 3 funções, uma para cada setor</p>
 
+=======
+# ProjetoEd1Unicap
+>>>>>>> 19699af2d0a59b97bc1ea6e03699d65e155fa384
